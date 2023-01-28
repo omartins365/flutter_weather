@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather/weather/weather.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-class ThemeCubit extends HydratedCubit<Color> {
-  ThemeCubit() : super(defaultColor);
+part 'theme_state.dart';
 
+class ThemeCubit extends HydratedCubit<ThemeState> {
   static const defaultColor = Color(0xFF2196F3);
 
+  ThemeCubit() : super(const ThemeInitial());
+
   void updateTheme(Weather? weather) {
-    if (weather != null) emit(weather.toColor);
+    if (weather != null) {
+      emit(CurrentTheme(color: weather.toColor, isDarkMode: state.isDarkMode));
+    }
+  }
+
+  void toggleDarkMode() {
+    final isDarkMode = state.isDarkMode;
+    emit(CurrentTheme(color: state.color, isDarkMode: !isDarkMode));
   }
 
   @override
-  Color fromJson(Map<String, dynamic> json) {
-    return Color(int.parse(json['color'] as String));
+  ThemeState fromJson(Map<String, dynamic> json) {
+    return CurrentTheme(
+        color: Color(int.parse(json['color'] as String)),
+        isDarkMode: state.isDarkMode);
   }
 
   @override
-  Map<String, dynamic> toJson(Color state) {
-    return <String, String>{'color': '${state.value}'};
+  Map<String, dynamic> toJson(ThemeState state) {
+    return <String, String>{'color': '${state.color}'};
   }
 }
 
@@ -34,7 +46,8 @@ extension on Weather {
       case WeatherCondition.rainy:
         return Colors.indigoAccent;
       case WeatherCondition.unknown:
-        return Colors.deepOrange;
+      default:
+        return ThemeCubit.defaultColor;
     }
   }
 }

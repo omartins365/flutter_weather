@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_weather/theme/cubit/theme_cubit.dart';
 import 'package:flutter_weather/weather/weather.dart';
+
+import '../../theme/theme.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage._();
@@ -33,6 +36,23 @@ class SettingsPage extends StatelessWidget {
                 trailing: Switch(
                   value: state.temperatureUnits.isCelsius,
                   onChanged: (_) => context.read<WeatherCubit>().toggleUnits(),
+                ),
+              );
+            },
+          ),
+          BlocBuilder<ThemeCubit, ThemeState>(
+            buildWhen: (previous, current) =>
+                previous.isDarkMode != current.isDarkMode,
+            builder: (context, state) {
+              return ListTile(
+                title: const Text('Theme'),
+                isThreeLine: true,
+                subtitle: const Text(
+                  'Switch light or dark theme.',
+                ),
+                trailing: Switch(
+                  value: state.isDarkMode,
+                  onChanged: (_) => context.read<ThemeCubit>().toggleDarkMode(),
                 ),
               );
             },

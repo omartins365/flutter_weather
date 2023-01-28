@@ -10,7 +10,7 @@ import 'package:weather_repository/weather_repository.dart';
 
 import 'helpers/hydrated_bloc.dart';
 
-class MockThemeCubit extends MockCubit<Color> implements ThemeCubit {}
+class MockThemeCubit extends MockCubit<ThemeState> implements ThemeCubit {}
 
 class MockWeatherRepository extends Mock implements WeatherRepository {}
 
@@ -42,7 +42,7 @@ void main() {
     });
 
     testWidgets('renders WeatherPage', (tester) async {
-      when(() => themeCubit.state).thenReturn(Colors.blue);
+      when(() => themeCubit.state).thenReturn(const CurrentTheme(color:Colors.blue, isDarkMode: false));
       await tester.pumpWidget(
         RepositoryProvider.value(
           value: weatherRepository,
@@ -57,7 +57,7 @@ void main() {
 
     testWidgets('has correct theme primary color', (tester) async {
       const color = Color(0xFFD2D2D2);
-      when(() => themeCubit.state).thenReturn(color);
+      when(() => themeCubit.state).thenReturn(const CurrentTheme(isDarkMode: false, color: color));
       await tester.pumpWidget(
         RepositoryProvider.value(
           value: weatherRepository,

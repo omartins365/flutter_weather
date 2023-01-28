@@ -29,24 +29,44 @@ class WeatherAppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return BlocBuilder<ThemeCubit, Color>(
-      builder: (context, color) {
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, state) {
         return MaterialApp(
           theme: ThemeData(
-            primaryColor: color,
-            textTheme: GoogleFonts.rajdhaniTextTheme(),
+            primaryColor: state.color,
+            textTheme: GoogleFonts.rajdhaniTextTheme().apply(
+              bodyColor: Colors.black,
+              displayColor: Colors.black,
+            ),
             appBarTheme: AppBarTheme(
               titleTextStyle: GoogleFonts.rajdhaniTextTheme(textTheme)
                   .apply(bodyColor: Colors.white)
                   .headline5,
-              backgroundColor: color.darken(30),
+              foregroundColor: Colors.white,
+              backgroundColor: state.color.darken(30),
             ),
           ),
+          darkTheme: ThemeData(
+            primaryColor: state.color,
+            textTheme: GoogleFonts.rajdhaniTextTheme().apply(
+              bodyColor: Colors.white,
+              displayColor: Colors.white,
+            ),
+            brightness: Brightness.dark,
+            appBarTheme: AppBarTheme(
+              titleTextStyle: GoogleFonts.rajdhaniTextTheme(textTheme)
+                  .apply(bodyColor: Colors.white)
+                  .headline5,
+              foregroundColor: Colors.white,
+              backgroundColor: state.color.darken(30),
+            ),
+
+            /* dark theme settings */
+          ),
+          themeMode: state.themeMode(),
           home: const WeatherPage(),
         );
       },
     );
   }
 }
-
-

@@ -15,7 +15,7 @@ import '../../helpers/hydrated_bloc.dart';
 
 class MockWeatherRepository extends Mock implements WeatherRepository {}
 
-class MockThemeCubit extends MockCubit<Color> implements ThemeCubit {}
+class MockThemeCubit extends MockCubit<ThemeState> implements ThemeCubit {}
 
 class MockWeatherCubit extends MockCubit<WeatherState> implements WeatherCubit {
 }
