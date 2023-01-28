@@ -78,6 +78,7 @@ class _WeatherViewState extends State<WeatherView> {
           if (!mounted) return;
           await context.read<WeatherCubit>().fetchWeather(city);
         },
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
     );
   }

@@ -38,7 +38,8 @@ class WeatherAppView extends StatelessWidget {
             appBarTheme: AppBarTheme(
               titleTextStyle: GoogleFonts.rajdhaniTextTheme(textTheme)
                   .apply(bodyColor: Colors.white)
-                  .headline6,
+                  .headline5,
+              backgroundColor: color.darken(30),
             ),
           ),
           home: const WeatherPage(),
@@ -47,3 +48,5 @@ class WeatherAppView extends StatelessWidget {
     );
   }
 }
+
+
