@@ -1,6 +1,6 @@
 name: open_meteo_api
-description: A new Flutter package project.
-version: 0.0.1
+description: A Dart API Client for the Open-Meteo API.
+version: 1.0.0+1
 homepage:
 
 environment:
