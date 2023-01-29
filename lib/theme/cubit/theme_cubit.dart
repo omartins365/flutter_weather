@@ -61,7 +61,6 @@ class ThemeCubit extends HydratedCubit<ThemeState> {
     // final defaultDarkColorScheme = ColorScheme.fromSwatch(
     //     primarySwatch: MaterialColor(color.value, colorSwatch),
     //     brightness: Brightness.dark);
-
     final themeData = ThemeData(
       useMaterial3: true,
       colorSchemeSeed: color,
@@ -69,7 +68,10 @@ class ThemeCubit extends HydratedCubit<ThemeState> {
       // colorScheme:
       // isDarkMode ? defaultDarkColorScheme : defaultLightColorScheme,
       // primaryColor: state.color,
-      textTheme: GoogleFonts.rajdhaniTextTheme(),
+      textTheme: GoogleFonts.rajdhaniTextTheme().apply(
+        bodyColor: isDarkMode ? color.brighten(50) : null,
+        displayColor: isDarkMode ? color.brighten(50) : null,
+      ),
       appBarTheme: AppBarTheme(
         titleTextStyle: GoogleFonts.rajdhaniTextTheme(textTheme)
             .apply(bodyColor: isDarkMode ? Colors.white : null)

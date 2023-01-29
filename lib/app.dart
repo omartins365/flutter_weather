@@ -53,7 +53,7 @@ class WeatherAppView extends StatelessWidget {
 
           //   /* dark theme settings */
           // ),
-          // themeMode: state.themeMode(),
+          themeMode: state.themeMode(),
           home: const WeatherPage(),
         );
       },

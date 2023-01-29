@@ -21,6 +21,9 @@ class WeatherPopulated extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDarkMode = context.read<ThemeCubit>().state.isDarkMode;
+    final textColor =
+        isDarkMode ? theme.colorScheme.secondary : theme.colorScheme.onPrimary;
     return Stack(
       children: [
         _WeatherBackground(),
@@ -38,20 +41,20 @@ class WeatherPopulated extends StatelessWidget {
                     weather.location,
                     style: theme.textTheme.headline2?.copyWith(
                       fontWeight: FontWeight.w200,
-                      color: theme.colorScheme.onPrimary,
+                      color: textColor,
                     ),
                   ),
                   Text(
                     weather.formattedTemperature(units),
                     style: theme.textTheme.headline3?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.onPrimary,
+                      color: textColor,
                     ),
                   ),
                   Text(
                     '''Last Updated at ${TimeOfDay.fromDateTime(weather.lastUpdated).format(context)}''',
                     style: theme.textTheme.bodyText1?.copyWith(
-                      color: theme.colorScheme.onPrimary,
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -105,7 +108,7 @@ class _WeatherBackground extends StatefulWidget {
 class _WeatherBackgroundState extends State<_WeatherBackground> {
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryColor;
+    final color = context.read<ThemeCubit>().state.color;
     final lightColors = [
       color,
       color.brighten(),
@@ -114,9 +117,9 @@ class _WeatherBackgroundState extends State<_WeatherBackground> {
     ];
     final darkColors = [
       color,
-      color.darken(40),
-      color.darken(60),
-      color.darken(80),
+      color.darken(),
+      color.darken(33),
+      color.darken(50),
     ];
     return BlocBuilder<ThemeCubit, ThemeState>(
       buildWhen: (previous, current) =>
