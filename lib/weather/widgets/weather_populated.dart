@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather/theme/theme.dart' show BrighterColor;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_weather/theme/theme.dart'
+    show BrighterColor, DarkerColor;
 import 'package:flutter_weather/weather/weather.dart';
+
+import '../../theme/cubit/theme_cubit.dart';
+
 class WeatherPopulated extends StatelessWidget {
   const WeatherPopulated({
     super.key,
@@ -33,16 +38,21 @@ class WeatherPopulated extends StatelessWidget {
                     weather.location,
                     style: theme.textTheme.headline2?.copyWith(
                       fontWeight: FontWeight.w200,
+                      color: theme.colorScheme.onPrimary,
                     ),
                   ),
                   Text(
                     weather.formattedTemperature(units),
                     style: theme.textTheme.headline3?.copyWith(
                       fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onPrimary,
                     ),
                   ),
                   Text(
                     '''Last Updated at ${TimeOfDay.fromDateTime(weather.lastUpdated).format(context)}''',
+                    style: theme.textTheme.bodyText1?.copyWith(
+                      color: theme.colorScheme.onPrimary,
+                    ),
                   ),
                 ],
               ),
@@ -87,26 +97,44 @@ extension on WeatherCondition {
   }
 }
 
-class _WeatherBackground extends StatelessWidget {
+class _WeatherBackground extends StatefulWidget {
+  @override
+  State<_WeatherBackground> createState() => _WeatherBackgroundState();
+}
+
+class _WeatherBackgroundState extends State<_WeatherBackground> {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryColor;
-    return SizedBox.expand(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: const [0.25, 0.75, 0.90, 1.0],
-            colors: [
-              color,
-              color.brighten(),
-              color.brighten(33),
-              color.brighten(50),
-            ],
+    final lightColors = [
+      color,
+      color.brighten(),
+      color.brighten(33),
+      color.brighten(50),
+    ];
+    final darkColors = [
+      color,
+      color.darken(40),
+      color.darken(60),
+      color.darken(80),
+    ];
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      buildWhen: (previous, current) =>
+          previous.isDarkMode != current.isDarkMode,
+      builder: (context, state) {
+        return SizedBox.expand(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: const [0.25, 0.75, 0.90, 1.0],
+                colors: state.isDarkMode ? darkColors : lightColors,
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

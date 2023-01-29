@@ -20,7 +20,11 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(
+        title: const Text('Settings'),
+        elevation: 4,
+        shadowColor: Theme.of(context).shadowColor,
+      ),
       body: ListView(
         children: <Widget>[
           BlocBuilder<WeatherCubit, WeatherState>(
@@ -48,7 +52,7 @@ class SettingsPage extends StatelessWidget {
                 title: const Text('Theme'),
                 isThreeLine: true,
                 subtitle: const Text(
-                  'Switch light or dark theme.',
+                  'Switch to light or dark theme.',
                 ),
                 trailing: Switch(
                   value: state.isDarkMode,

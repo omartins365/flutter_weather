@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_weather/theme/theme.dart';
 import 'package:flutter_weather/weather/weather.dart';
@@ -28,42 +29,31 @@ class WeatherAppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, state) {
         return MaterialApp(
-          theme: ThemeData(
-            primaryColor: state.color,
-            textTheme: GoogleFonts.rajdhaniTextTheme().apply(
-              bodyColor: Colors.black,
-              displayColor: Colors.black,
-            ),
-            appBarTheme: AppBarTheme(
-              titleTextStyle: GoogleFonts.rajdhaniTextTheme(textTheme)
-                  .apply(bodyColor: Colors.white)
-                  .headline5,
-              foregroundColor: Colors.white,
-              backgroundColor: state.color.darken(30),
-            ),
-          ),
-          darkTheme: ThemeData(
-            primaryColor: state.color,
-            textTheme: GoogleFonts.rajdhaniTextTheme().apply(
-              bodyColor: Colors.white,
-              displayColor: Colors.white,
-            ),
-            brightness: Brightness.dark,
-            appBarTheme: AppBarTheme(
-              titleTextStyle: GoogleFonts.rajdhaniTextTheme(textTheme)
-                  .apply(bodyColor: Colors.white)
-                  .headline5,
-              foregroundColor: Colors.white,
-              backgroundColor: state.color.darken(30),
-            ),
+          theme: context.read<ThemeCubit>().themeData(context),
+          debugShowCheckedModeBanner: false,
+          // darkTheme: ThemeData(
+          //   primaryColor: state.color,
+          //   textTheme: GoogleFonts.rajdhaniTextTheme().apply(
+          //     bodyColor: Colors.white,
+          //     displayColor: Colors.white,
+          //   ),
+          //   appBarTheme: AppBarTheme(
+          //     titleTextStyle: GoogleFonts.rajdhaniTextTheme(textTheme)
+          //         .apply(bodyColor: Colors.white)
+          //         .headline5,
+          //     foregroundColor: Colors.white,
+          //     backgroundColor: state.color.darken(30),
+          //     systemOverlayStyle: SystemUiOverlayStyle(
+          //       statusBarBrightness: Brightness.dark,
+          //     ),
+          //   ),
 
-            /* dark theme settings */
-          ),
-          themeMode: state.themeMode(),
+          //   /* dark theme settings */
+          // ),
+          // themeMode: state.themeMode(),
           home: const WeatherPage(),
         );
       },

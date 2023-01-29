@@ -31,6 +31,8 @@ class _WeatherViewState extends State<WeatherView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Weather'),
+        elevation: 4,
+        shadowColor: Theme.of(context).shadowColor,
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -77,8 +79,6 @@ class _WeatherViewState extends State<WeatherView> {
           if (!mounted) return;
           await context.read<WeatherCubit>().fetchWeather(city);
         },
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
         child: const Icon(Icons.search, semanticLabel: 'Search'),
       ),
     );

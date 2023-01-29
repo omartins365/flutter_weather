@@ -9,9 +9,6 @@ class ThemeState extends Equatable {
   @override
   List<Object> get props => [isDarkMode, color];
 
-  ThemeMode themeMode() {
-    return isDarkMode ? ThemeMode.dark : ThemeMode.light;
-  }
 }
 
 class ThemeInitial extends ThemeState {

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_weather/theme/theme.dart';
 import 'package:flutter_weather/weather/weather.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'theme_state.dart';
 
 class ThemeCubit extends HydratedCubit<ThemeState> {
-  static const defaultColor = Color(0xFF2196F3);
+  static const defaultColor = Colors.blue;
 
   ThemeCubit() : super(const ThemeInitial());
 
@@ -31,6 +34,51 @@ class ThemeCubit extends HydratedCubit<ThemeState> {
   @override
   Map<String, dynamic> toJson(ThemeState state) {
     return <String, String>{'color': '${state.color}'};
+  }
+
+  ThemeData themeData(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final isDarkMode = state.isDarkMode;
+    final brightness = isDarkMode ? Brightness.dark : Brightness.light;
+    final color = state.color;
+
+    // const Map<int, Color> colorSwatch = {
+    //   50: Color.fromRGBO(136, 14, 79, .1),
+    //   100: Color.fromRGBO(136, 14, 79, .2),
+    //   200: Color.fromRGBO(136, 14, 79, .3),
+    //   300: Color.fromRGBO(136, 14, 79, .4),
+    //   400: Color.fromRGBO(136, 14, 79, .5),
+    //   500: Color.fromRGBO(136, 14, 79, .6),
+    //   600: Color.fromRGBO(136, 14, 79, .7),
+    //   700: Color.fromRGBO(136, 14, 79, .8),
+    //   800: Color.fromRGBO(136, 14, 79, .9),
+    //   900: Color.fromRGBO(136, 14, 79, 1),
+    // };
+
+    // final defaultLightColorScheme = ColorScheme.fromSwatch(
+    //     primarySwatch: MaterialColor(color.value, colorSwatch));
+
+    // final defaultDarkColorScheme = ColorScheme.fromSwatch(
+    //     primarySwatch: MaterialColor(color.value, colorSwatch),
+    //     brightness: Brightness.dark);
+
+    final themeData = ThemeData(
+      useMaterial3: true,
+      colorSchemeSeed: color,
+      brightness: brightness,
+      // colorScheme:
+      // isDarkMode ? defaultDarkColorScheme : defaultLightColorScheme,
+      // primaryColor: state.color,
+      textTheme: GoogleFonts.rajdhaniTextTheme(),
+      appBarTheme: AppBarTheme(
+        titleTextStyle: GoogleFonts.rajdhaniTextTheme(textTheme)
+            .apply(bodyColor: isDarkMode ? Colors.white : null)
+            .headline5,
+        // foregroundColor: Colors.white,
+        // backgroundColor: isDarkMode ? color.darken(80) : null,
+      ),
+    );
+    return themeData;
   }
 }
 
